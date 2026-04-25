@@ -98,6 +98,22 @@
   .modal h3 { font-family: Georgia, serif; color: var(--navy); font-size: 1.4rem; font-weight: normal; margin-bottom: 1rem; }
   .modal p { font-size: 0.875rem; color: var(--slate); line-height: 1.7; margin-bottom: 0.75rem; }
   .modal h4 { font-size: 0.875rem; font-weight: 500; color: var(--navy); margin: 1.25rem 0 0.4rem; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 1rem; }
+  .nav-links { gap: 1rem; }
+  .nav-links li:not(:last-child) { display: none; }
+  .hero { padding: 100px 1.25rem 60px; }
+  .stats-bar { gap: 1.5rem; padding: 1.25rem 1rem; }
+  .stat-number { font-size: 1.4rem; }
+  .demo-section, .tech-section { padding: 60px 1.25rem; }
+  .how-section { padding: 60px 1.25rem; }
+  .query-input-row { flex-direction: column; }
+  #query-input { height: 80px; }
+  #run-btn { width: 100%; height: 44px; }
+  .steps-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-links { gap: 1rem; }
+}
 </style>
 </head>
 <body>
@@ -226,7 +242,7 @@
     <p>NeuroLit synthesises publicly available scientific literature. It is not a medical device and does not provide medical advice, diagnosis, or treatment recommendations. Always consult qualified clinicians and primary literature.</p>
 
     <h4>Contact</h4>
-    <p>For any privacy questions, contact us at hello@neurolit.io</p>
+    <p>For any privacy questions, please reach out via LinkedIn.</p>
   </div>
 </div>
 
