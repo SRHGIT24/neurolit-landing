@@ -282,10 +282,15 @@
     const btn = document.getElementById('run-btn');
     const resultArea = document.getElementById('result-area');
     const resultContent = document.getElementById('result-content');
+
     btn.disabled = true;
     btn.textContent = 'Searching...';
     resultArea.style.display = 'block';
-    resultContent.innerHTML = '<div class="loading-state"><div class="spinner"></div><span>Retrieving from 42,831 chunks, reranking, generating answer — this may take 20–30 seconds on first query...</span></div>';
+    resultContent.innerHTML = '<div class="loading-state"><div class="spinner"></div><span>Retrieving from 42,831 chunks and reranking...</span></div>';
+
+    let fullText = '';
+    let firstChunk = true;
+
     try {
       const response = await fetch(`${API_URL}/query`, {
         method: 'POST',
@@ -293,21 +298,64 @@
         body: JSON.stringify({ question })
       });
       if (!response.ok) throw new Error(`API error: ${response.status}`);
-      const data = await response.json();
-      let html = `<div class="result-answer">${formatAnswer(data.answer)}</div>`;
-      if (data.sources && data.sources.length > 0) {
-        html += '<div class="sources-list">';
-        data.sources.forEach((s, i) => {
-          html += `<div class="source-card"><div class="source-title">[${i+1}] ${s.title}</div><div class="source-meta">${s.authors ? s.authors.split(',')[0] + ' et al.' : ''} · ${s.journal || ''} · ${s.year || ''} · ${s.section || ''}</div></div>`;
-        });
-        html += '</div>';
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const parts = buffer.split('\n\n');
+        buffer = parts.pop(); // keep any incomplete trailing chunk
+
+        for (const part of parts) {
+          if (!part.startsWith('data: ')) continue;
+          const raw = part.slice(6).trim();
+
+          if (raw === '[DONE]') {
+            btn.disabled = false;
+            btn.textContent = 'Run query →';
+            return;
+          }
+
+          let event;
+          try { event = JSON.parse(raw); } catch { continue; }
+
+          if (event.e) {
+            resultContent.innerHTML = `<div class="error-state">Generation error: ${event.e}</div>`;
+            continue;
+          }
+
+          if (event.s) {
+            let sourcesHtml = '<div class="sources-list">';
+            event.s.forEach((s, i) => {
+              sourcesHtml += `<div class="source-card"><div class="source-title">[${i+1}] ${s.title}</div><div class="source-meta">${s.authors ? s.authors.split(',')[0] + ' et al.' : ''} · ${s.journal || ''} · ${s.year || ''} · ${s.section || ''}</div></div>`;
+            });
+            sourcesHtml += '</div>';
+            const answerDiv = resultContent.querySelector('.result-answer');
+            if (answerDiv) answerDiv.insertAdjacentHTML('afterend', sourcesHtml);
+            continue;
+          }
+
+          if (event.t !== undefined) {
+            if (firstChunk) {
+              firstChunk = false;
+              resultContent.innerHTML = '<div class="result-answer"></div>';
+            }
+            fullText += event.t;
+            const answerDiv = resultContent.querySelector('.result-answer');
+            if (answerDiv) answerDiv.innerHTML = formatAnswer(fullText);
+          }
+        }
       }
-      resultContent.innerHTML = html;
     } catch (err) {
       resultContent.innerHTML = `<div class="error-state">The server is warming up — please try again in 30 seconds. (${err.message})</div>`;
+      btn.disabled = false;
+      btn.textContent = 'Run query →';
     }
-    btn.disabled = false;
-    btn.textContent = 'Run query →';
   }
 
   document.getElementById('query-input').addEventListener('keydown', function(e) {
