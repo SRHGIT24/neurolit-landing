@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroLit — Neurodegenerative Disease Research Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Georgia&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cerulean: #0891B2;
+    --cerulean-lt: #E0F4F9;
+    --cerulean-mid: #B8E4F0;
+    --navy: #0E2233;
+    --slate: #2A4455;
+    --muted: #5A7A8A;
+    --muted-lt: #8AACBA;
+    --bg: #F4F6F8;
+    --border: #DDE8ED;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--slate); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .wordmark { font-family: Georgia, serif; font-size: 1.4rem; letter-spacing: -0.02em; }
+  .wordmark span:first-child { color: var(--navy); }
+  .wordmark span:last-child { color: var(--cerulean); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-cta { background: var(--cerulean) !important; color: white !important; padding: 0.45rem 1.1rem; border-radius: 6px; }
+  .hero { padding: 140px 2rem 80px; max-width: 900px; margin: 0 auto; text-align: center; }
+  .eyebrow { display: inline-block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cerulean); background: var(--cerulean-lt); border: 1px solid var(--cerulean-mid); padding: 0.3rem 0.9rem; border-radius: 100px; margin-bottom: 1.5rem; }
+  h1 { font-family: Georgia, serif; font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--navy); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1.25rem; font-weight: normal; }
+  .hero-sub { font-size: 1.125rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.65; font-weight: 300; }
+  .hero-sub strong { color: var(--cerulean); font-weight: 500; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--cerulean); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary { background: white; color: var(--slate); border: 1px solid var(--border); padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; }
+  .btn-secondary:hover { border-color: var(--cerulean); }
+  .stats-bar { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-number { font-family: Georgia, serif; font-size: 1.75rem; color: var(--navy); display: block; letter-spacing: -0.02em; }
+  .stat-label { font-size: 0.8rem; color: var(--muted-lt); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+  .demo-section { max-width: 860px; margin: 0 auto; padding: 80px 2rem; }
+  .section-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cerulean); margin-bottom: 0.75rem; }
+  h2 { font-family: Georgia, serif; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--navy); font-weight: normal; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.25; }
+  .section-sub { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; font-weight: 300; }
+  .section-sub strong { color: var(--cerulean); font-weight: 500; }
+  .demo-box { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .demo-header { background: var(--navy); padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+  .demo-title { color: rgba(255,255,255,0.6); font-size: 0.75rem; letter-spacing: 0.05em; margin-left: 0.5rem; }
+  .demo-body { padding: 1.5rem; }
+  .query-presets { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .preset-btn { background: var(--cerulean-lt); border: 1px solid var(--cerulean-mid); color: var(--cerulean); padding: 0.35rem 0.85rem; border-radius: 100px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+  .preset-btn:hover { background: var(--cerulean); color: white; border-color: var(--cerulean); }
+  .query-input-row { display: flex; gap: 0.75rem; align-items: flex-start; }
+  #query-input { flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.925rem; color: var(--navy); background: var(--bg); resize: none; height: 52px; transition: border-color 0.2s; outline: none; }
+  #query-input:focus { border-color: var(--cerulean); }
+  #run-btn { background: var(--cerulean); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; height: 52px; }
+  #run-btn:hover { opacity: 0.88; }
+  #run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #result-area { margin-top: 1.5rem; display: none; }
+  .result-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .result-answer { font-size: 0.9rem; color: var(--slate); line-height: 1.7; }
+  .result-answer h2, .result-answer h3 { font-family: Georgia, serif; color: var(--navy); font-size: 1rem; margin: 1.25rem 0 0.5rem; font-weight: normal; }
+  .sources-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .source-card { background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--cerulean); border-radius: 6px; padding: 0.65rem 0.85rem; }
+  .source-title { font-size: 0.82rem; font-weight: 500; color: var(--navy); margin-bottom: 0.2rem; }
+  .source-meta { font-size: 0.75rem; color: var(--muted-lt); }
+  .loading-state { display: flex; align-items: center; gap: 0.75rem; color: var(--muted); font-size: 0.875rem; padding: 1rem 0; }
+  .spinner { width: 18px; height: 18px; border: 2px solid var(--cerulean-mid); border-top-color: var(--cerulean); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .disclaimer { font-size: 0.72rem; color: var(--muted-lt); margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .how-section { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 2rem; }
+  .how-inner { max-width: 860px; margin: 0 auto; }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .step-number { font-family: Georgia, serif; font-size: 2rem; color: var(--cerulean-mid); line-height: 1; margin-bottom: 0.75rem; }
+  .step-title { font-size: 0.95rem; font-weight: 500; color: var(--navy); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.55; font-weight: 300; }
+  footer { background: var(--navy); color: rgba(255,255,255,0.4); text-align: center; padding: 2.5rem 2rem 1.5rem; font-size: 0.8rem; }
+  .footer-wordmark { font-family: Georgia, serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .footer-wordmark span:first-child { color: white; }
+  .footer-wordmark span:last-child { color: var(--cerulean); }
+  .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
+  .footer-links a:hover { color: rgba(255,255,255,0.7); }
+  .footer-bottom { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.72rem; color: rgba(255,255,255,0.25); }
+  .error-state { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 1rem; color: #991B1B; font-size: 0.875rem; margin-top: 1rem; }
+
+  /* Privacy modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 2rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 12px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; padding: 2rem; position: relative; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--muted); }
+  .modal h3 { font-family: Georgia, serif; color: var(--navy); font-size: 1.4rem; font-weight: normal; margin-bottom: 1rem; }
+  .modal p { font-size: 0.875rem; color: var(--slate); line-height: 1.7; margin-bottom: 0.75rem; }
+  .modal h4 { font-size: 0.875rem; font-weight: 500; color: var(--navy); margin: 1.25rem 0 0.4rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wordmark"><span>Neuro</span><span>Lit</span></div>
+  <ul class="nav-links">
+    <li><a href="#demo">Try it</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="https://linkedin.com/company/neurolit-ai" target="_blank" class="nav-cta">Follow on LinkedIn</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Neurodegenerative Disease Intelligence</div>
+  <h1>Research synthesis grounded in the literature, not the model</h1>
+  <p class="hero-sub">NeuroLit retrieves, re-ranks, and synthesises evidence from 2,578 full-text papers across ALS, Alzheimer's, Parkinson's, and 10 other conditions — with citations you can verify. <strong>No fabricated citations. No training memory.</strong></p>
+  <div class="hero-actions">
+    <a href="#demo" class="btn-primary">Run a live query</a>
+    <a href="#how" class="btn-secondary">How it works</a>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-number">2,578</span><span class="stat-label">Full-text papers</span></div>
+  <div class="stat"><span class="stat-number">42,831</span><span class="stat-label">Indexed chunks</span></div>
+  <div class="stat"><span class="stat-number">13</span><span class="stat-label">Disease areas</span></div>
+  <div class="stat"><span class="stat-number">0</span><span class="stat-label">Hallucinated citations</span></div>
+</div>
+
+<section class="demo-section" id="demo">
+  <div class="section-eyebrow">Live demo</div>
+  <h2>Ask a research question</h2>
+  <p class="section-sub">Every answer is grounded in retrieved literature. <strong>No fabricated citations. No training memory.</strong></p>
+  <div class="demo-box">
+    <div class="demo-header">
+      <div class="demo-dot"></div><div class="demo-dot"></div><div class="demo-dot"></div>
+      <span class="demo-title">NeuroLit Research Query</span>
+    </div>
+    <div class="demo-body">
+      <div class="query-presets">
+        <button class="preset-btn" onclick="setQuery('What is the role of TDP-43 in ALS motor neuron death?')">TDP-43 in ALS</button>
+        <button class="preset-btn" onclick="setQuery('What CSF biomarkers are validated for Alzheimer\'s disease diagnosis?')">AD biomarkers</button>
+        <button class="preset-btn" onclick="setQuery('What is the evidence for neuroinflammation in Parkinson\'s disease?')">Neuroinflammation in PD</button>
+        <button class="preset-btn" onclick="setQuery('What are the known genetic risk factors for frontotemporal dementia?')">FTD genetics</button>
+      </div>
+      <div class="query-input-row">
+        <textarea id="query-input" placeholder="Ask a neurodegenerative disease research question..."></textarea>
+        <button id="run-btn" onclick="runQuery()">Run query →</button>
+      </div>
+      <div id="result-area">
+        <hr class="result-divider">
+        <div id="result-content"></div>
+        <p class="disclaimer">NeuroLit synthesises published literature. This is not medical advice. Always consult primary sources and qualified clinicians.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-eyebrow">Architecture</div>
+    <h2>How NeuroLit works</h2>
+    <p class="section-sub">A five-stage pipeline from question to grounded answer — no retrieval step skipped.</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-number">01</div>
+        <div class="step-title">Biomedical query encoding</div>
+        <div class="step-desc">Your question is encoded by a biomedical-specific encoder trained on millions of scientific abstracts — not a generic language model.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <div class="step-title">Section-aware retrieval</div>
+        <div class="step-desc">42,831 chunks — split by paper section: methods, results, limitations, discussion — are searched by semantic similarity. Top 50 candidates returned.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <div class="step-title">Precision reranking</div>
+        <div class="step-desc">A cross-encoder scores each question-chunk pair jointly. More precise than embedding similarity alone. Top 5 selected for generation.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">04</div>
+        <div class="step-title">Grounded generation</div>
+        <div class="step-desc">The generation model synthesises only from retrieved passages. It cannot cite papers not in the retrieved context. Fabrication is architecturally prevented.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">05</div>
+        <div class="step-title">Evidence calibration</div>
+        <div class="step-desc">Output distinguishes in vitro, animal, and human evidence. Flags conflicting findings between papers. Reports gaps explicitly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-wordmark"><span>Neuro</span><span>Lit</span></div>
+  <p>Neurodegenerative disease research intelligence.</p>
+  <p style="margin-top:0.4rem;">Not medical advice. Always consult primary sources and qualified clinicians.</p>
+  <div class="footer-links">
+    <a href="#" onclick="openPrivacy(); return false;">Privacy Policy</a>
+    <a href="https://linkedin.com/company/neurolit-ai" target="_blank">LinkedIn</a>
+
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 NeuroLit. All rights reserved.
+  </div>
+</footer>
+
+<!-- Privacy Modal -->
+<div class="modal-overlay" id="privacy-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePrivacy()">&#x2715;</button>
+    <h3>Privacy Policy</h3>
+    <p>Last updated: April 2026</p>
+
+    <h4>What we collect</h4>
+    <p>NeuroLit does not collect personal data. When you submit a research query, the question text is sent to our API to generate a response. We do not store queries, link them to individuals, or use them for any purpose beyond generating your answer.</p>
+
+    <h4>Cookies</h4>
+    <p>NeuroLit does not use tracking cookies or analytics cookies. No third-party advertising or tracking scripts are present on this site.</p>
+
+    <h4>Third-party services</h4>
+    <p>Query processing involves third-party AI infrastructure. Query text may pass through these services solely to generate your answer and is not retained or used for training.</p>
+
+    <h4>Research disclaimer</h4>
+    <p>NeuroLit synthesises publicly available scientific literature. It is not a medical device and does not provide medical advice, diagnosis, or treatment recommendations. Always consult qualified clinicians and primary literature.</p>
+
+    <h4>Contact</h4>
+    <p>For any privacy questions, contact us at hello@neurolit.io</p>
+  </div>
+</div>
+
+<script>
+  const API_URL = 'https://neurolit.onrender.com';
+
+  function setQuery(text) {
+    document.getElementById('query-input').value = text;
+    document.getElementById('query-input').focus();
+  }
+
+  function openPrivacy() {
+    document.getElementById('privacy-modal').classList.add('open');
+  }
+
+  function closePrivacy() {
+    document.getElementById('privacy-modal').classList.remove('open');
+  }
+
+  document.getElementById('privacy-modal').addEventListener('click', function(e) {
+    if (e.target === this) closePrivacy();
+  });
+
+  function formatAnswer(text) {
+    return text
+      .replace(/## (.*)/g, '<h2>$1</h2>')
+      .replace(/### (.*)/g, '<h3>$1</h3>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/• /g, '&bull; ')
+      .replace(/\n/g, '<br>');
+  }
+
+  async function runQuery() {
+    const question = document.getElementById('query-input').value.trim();
+    if (!question) return;
+    const btn = document.getElementById('run-btn');
+    const resultArea = document.getElementById('result-area');
+    const resultContent = document.getElementById('result-content');
+    btn.disabled = true;
+    btn.textContent = 'Searching...';
+    resultArea.style.display = 'block';
+    resultContent.innerHTML = '<div class="loading-state"><div class="spinner"></div><span>Retrieving from 42,831 chunks, reranking, generating answer — this may take 20–30 seconds on first query...</span></div>';
+    try {
+      const response = await fetch(`${API_URL}/query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question })
+      });
+      if (!response.ok) throw new Error(`API error: ${response.status}`);
+      const data = await response.json();
+      let html = `<div class="result-answer">${formatAnswer(data.answer)}</div>`;
+      if (data.sources && data.sources.length > 0) {
+        html += '<div class="sources-list">';
+        data.sources.forEach((s, i) => {
+          html += `<div class="source-card"><div class="source-title">[${i+1}] ${s.title}</div><div class="source-meta">${s.authors ? s.authors.split(',')[0] + ' et al.' : ''} · ${s.journal || ''} · ${s.year || ''} · ${s.section || ''}</div></div>`;
+        });
+        html += '</div>';
+      }
+      resultContent.innerHTML = html;
+    } catch (err) {
+      resultContent.innerHTML = `<div class="error-state">The server is warming up — please try again in 30 seconds. (${err.message})</div>`;
+    }
+    btn.disabled = false;
+    btn.textContent = 'Run query →';
+  }
+
+  document.getElementById('query-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); runQuery(); }
+  });
+</script>
+</body>
+</html>
